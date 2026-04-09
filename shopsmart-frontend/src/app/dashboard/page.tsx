@@ -31,7 +31,7 @@ export default function DashboardPage() {
             <TrendingUp size={120} />
           </div>
           <CardHeader>
-            <p className="text-sm opacity-80 uppercase tracking-widest font-bold">Today's Revenue</p>
+            <p className="text-sm opacity-80 uppercase tracking-widest font-bold">Today&apos;s Revenue</p>
             <CardTitle className="text-4xl font-extrabold">{formatCurrency(totalRevenue)}</CardTitle>
           </CardHeader>
           <CardContent>

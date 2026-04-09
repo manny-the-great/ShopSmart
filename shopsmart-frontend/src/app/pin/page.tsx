@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Delete, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Delete } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function PinPage() {

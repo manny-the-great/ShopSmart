@@ -8,7 +8,10 @@ export default function OfflineIndicator() {
   const [isOffline, setIsOffline] = useState(false);
 
   useEffect(() => {
-    setIsOffline(!navigator.onLine);
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsOffline(true);
+    }
     
     const handleOnline = () => setIsOffline(false);
     const handleOffline = () => setIsOffline(true);

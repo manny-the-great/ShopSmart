@@ -5,7 +5,7 @@ import ProductGrid from '@/components/pos/ProductGrid';
 import CartSummary from '@/components/pos/CartSummary';
 import PaymentButtons from '@/components/pos/PaymentButtons';
 import { useCartStore } from '@/store/useCartStore';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, cn } from '@/lib/utils';
 import { Search, User } from 'lucide-react';
 
 export default function PosPage() {
@@ -60,7 +60,4 @@ export default function PosPage() {
   );
 }
 
-// Utility to merge classes in this context
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(' ');
-}
+

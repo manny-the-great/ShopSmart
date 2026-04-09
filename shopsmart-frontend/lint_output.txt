@@ -1,0 +1,27 @@
+
+> shopsmart-frontend@0.1.0 lint
+> eslint
+
+
+C:\Users\Manny\OneDrive\Desktop\Antigravity\ShopSmart\shopsmart-frontend\src\components\shared\OfflineIndicator.tsx
+  11:5  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect')
+  13:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Manny\OneDrive\Desktop\Antigravity\ShopSmart\shopsmart-frontend\src\components\shared\OfflineIndicator.tsx:13:7
+  11 |     // eslint-disable-next-line react-hooks/set-state-in-effect
+  12 |     if (typeof navigator !== 'undefined' && !navigator.onLine) {
+> 13 |       setIsOffline(true);
+     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  14 |     }
+  15 |     
+  16 |     const handleOnline = () => setIsOffline(false);  react-hooks/set-state-in-effect
+
+✖ 2 problems (1 error, 1 warning)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

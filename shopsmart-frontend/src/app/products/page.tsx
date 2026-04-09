@@ -3,10 +3,9 @@
 import React, { useState } from 'react';
 import { useProductStore } from '@/store/useProductStore';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Plus, Search, Grid, List as ListIcon, ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { formatCurrency } from '@/lib/utils';
+import { formatCurrency, cn } from '@/lib/utils';
 
 export default function ProductsPage() {
   const { products } = useProductStore();
@@ -84,6 +83,3 @@ export default function ProductsPage() {
   );
 }
 
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(' ');
-}

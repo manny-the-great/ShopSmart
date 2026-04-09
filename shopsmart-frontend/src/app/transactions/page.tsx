@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { useTransactionStore } from '@/store/useTransactionStore';
-import { formatCurrency } from '@/lib/utils';
-import { ArrowLeft, Filter, Search } from 'lucide-react';
+import { formatCurrency, cn } from '@/lib/utils';
+import { ArrowLeft, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { PaymentMethod } from '@/types';
@@ -36,7 +36,7 @@ export default function TransactionsPage() {
         {['all', 'cash', 'transfer', 'card'].map((f) => (
           <button
             key={f}
-            onClick={() => setFilter(f as any)}
+            onClick={() => setFilter(f as PaymentMethod | 'all')}
             className={cn(
               "px-6 py-2 rounded-full text-sm font-bold capitalize transition-colors whitespace-nowrap",
               filter === f ? "bg-primary text-white" : "bg-white text-muted-foreground shadow-sm"
@@ -78,6 +78,4 @@ export default function TransactionsPage() {
   );
 }
 
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(' ');
-}
+
