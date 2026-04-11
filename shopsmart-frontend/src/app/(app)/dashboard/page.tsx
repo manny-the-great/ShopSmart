@@ -7,7 +7,7 @@ import { useProductStore } from '@/store/useProductStore';
 import { formatCurrency } from '@/lib/utils';
 import { TrendingUp, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { motion } from 'framer-motion';
 
 export default function DashboardPage() {
   const { transactions } = useTransactionStore();
@@ -106,29 +106,33 @@ export default function DashboardPage() {
            </div>
         </div>
 
-        {/* Recharts Revenue Chart */}
+        {/* Framer Motion Revenue Chart */}
         <Card className="shadow-sm">
           <CardHeader>
             <CardTitle className="text-sm font-bold uppercase text-muted-foreground">7-Day Revenue</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#1E3A8A" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#1E3A8A" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <Tooltip 
-                    formatter={(value: number) => formatCurrency(value)}
-                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} dy={10} />
-                  <Area type="monotone" dataKey="revenue" stroke="#1E3A8A" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
-                </AreaChart>
-              </ResponsiveContainer>
+            <div className="h-48 w-full flex items-end justify-between gap-2 pt-8">
+              {chartData.map((data, i) => {
+                const maxRevenue = Math.max(...chartData.map(d => d.revenue));
+                const heightPercentage = Math.max(10, (data.revenue / maxRevenue) * 100);
+                
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-3">
+                    <motion.div
+                      initial={{ height: 0 }}
+                      animate={{ height: `${heightPercentage}%` }}
+                      transition={{ duration: 0.5, delay: i * 0.1 }}
+                      className="w-full bg-primary/20 rounded-t-lg hover:bg-primary transition-colors relative group cursor-pointer"
+                    >
+                      <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
+                        {formatCurrency(data.revenue)}
+                      </div>
+                    </motion.div>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase">{data.name.slice(0,1)}</span>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
