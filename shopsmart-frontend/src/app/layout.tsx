@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: 'ShopSmart is the modern POS and business management platform for vendors. Track sales, manage inventory, record walk-in orders, and monitor income — all in one place.',
   keywords: ['POS', 'point of sale', 'sales tracking', 'inventory management', 'vendor management', 'Nigeria'],
   authors: [{ name: 'ShopSmart Technologies' }],
-  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

@@ -1,7 +1,7 @@
 const CACHE_NAME = 'shopsmart-v1';
 const urlsToCache = [
   '/pin',
-  '/manifest.json',
+  '/manifest.webmanifest',
   '/icons/icon-192.png',
   '/favicon.ico',
 ];

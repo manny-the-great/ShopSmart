@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Pages that don't require authentication
 const PUBLIC_PATHS = ['/', '/pin'];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
@@ -36,13 +35,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization)
-     * - favicon.ico
-     * - manifest files
-     */
-    '/((?!_next/static|_next/image|favicon.ico|manifest.json|icons).*)',
+    '/((?!_next/static|_next/image|favicon.ico|manifest.json|icons|sw.js).*)',
   ],
 };
