@@ -1,41 +1,61 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { WifiOff } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WifiOff, RefreshCw } from 'lucide-react';
 
 export default function OfflineIndicator() {
   const [isOffline, setIsOffline] = useState(false);
+  const [showSyncing, setShowSyncing] = useState(false);
 
   useEffect(() => {
-    if (typeof navigator !== 'undefined' && !navigator.onLine) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+    const handleOffline = () => {
       setIsOffline(true);
-    }
-    
-    const handleOnline = () => setIsOffline(false);
-    const handleOffline = () => setIsOffline(true);
+      setShowSyncing(false);
+    };
 
-    window.addEventListener('online', handleOnline);
+    const handleOnline = () => {
+      setIsOffline(false);
+      setShowSyncing(true);
+      setTimeout(() => setShowSyncing(false), 3000);
+    };
+
+    // Initial check
+    setIsOffline(!navigator.onLine);
+
     window.addEventListener('offline', handleOffline);
-
+    window.addEventListener('online', handleOnline);
     return () => {
-      window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
     };
   }, []);
 
   return (
     <AnimatePresence>
-      {isOffline && (
+      {(isOffline || showSyncing) && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed top-4 left-1/2 -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full flex items-center gap-2 shadow-lg z-[200] text-xs font-bold"
+          initial={{ y: -60, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -60, opacity: 0 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+          className={`fixed top-4 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 px-4 py-2.5 rounded-full shadow-xl text-sm font-bold ${
+            isOffline
+              ? 'bg-red-500 text-white'
+              : 'bg-[#22C55E] text-white'
+          }`}
         >
-          <WifiOff size={14} />
-          Offline Mode
+          {isOffline ? (
+            <>
+              <WifiOff size={15} />
+              No internet — working offline
+            </>
+          ) : (
+            <>
+              <RefreshCw size={15} className="animate-spin" />
+              Syncing...
+            </>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
