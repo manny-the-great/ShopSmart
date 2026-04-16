@@ -7,9 +7,7 @@ const PUBLIC_PATHS = ['/', '/pin'];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Allow public paths and static assets
   if (
-    PUBLIC_PATHS.includes(pathname) ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.includes('.')
@@ -17,16 +15,18 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check auth from Zustand persisted storage key 'shopsmart-auth'
-  const authCookie = request.cookies.get('shopsmart-auth');
-
-  // Try to read from localStorage via the cookie (Zustand persist sets a cookie in some configs)
-  // Since Zustand persist uses localStorage (not cookies), we rely on a custom cookie
-  // set during login. Check for our auth session cookie.
   const sessionCookie = request.cookies.get('ss-session');
 
+  // If user is accessing public paths
+  if (PUBLIC_PATHS.includes(pathname)) {
+    if (sessionCookie) {
+      return NextResponse.redirect(new URL('/home', request.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Protected routes
   if (!sessionCookie) {
-    // Redirect to PIN page
     const loginUrl = new URL('/pin', request.url);
     return NextResponse.redirect(loginUrl);
   }

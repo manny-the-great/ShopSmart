@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import ServiceWorkerRegister from '@/components/shared/ServiceWorkerRegister';
 
 export const metadata: Metadata = {
   title: 'ShopSmart — Manage your business. Track every sale.',
@@ -30,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <ServiceWorkerRegister />
+        {children}
+      </body>
     </html>
   );
 }
